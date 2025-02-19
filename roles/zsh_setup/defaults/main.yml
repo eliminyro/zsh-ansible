@@ -1,0 +1,24 @@
+---
+antidote_plugins:
+  - mattmc3/zfunctions
+  - zsh-users/zsh-autosuggestions
+  - zdharma-continuum/fast-syntax-highlighting kind:defer
+  - joshskidmore/zsh-fzf-history-search
+  - zsh-users/zsh-history-substring-search
+
+omz_enabled: True
+
+omz_plugins:
+  - colored-man-pages
+  - magic-enter
+  - command-not-found
+  - fancy-ctrl-z
+  - git-extras
+  - gnu-utils
+  - systemd
+  - python
+  - kubectl
+  - pip
+
+zsh_themes:
+  - romkatv/powerlevel10k

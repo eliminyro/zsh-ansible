@@ -1,0 +1,30 @@
+---
+- name: Install ZSH on Linux
+  package:
+    name: zsh
+    state: present
+  when: ansible_os_family != "Darwin"
+
+- name: Install ZSH on macOS using Homebrew
+  community.general.homebrew:
+    name: zsh
+    state: present
+  when: ansible_system == "Darwin"
+
+- name: Check if oh-my-zsh is already installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh"
+  register: ohmyzsh_installed
+
+- name: Install oh-my-zsh non-interactively
+  shell: |
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  args:
+    executable: /bin/bash
+  when: not ohmyzsh_installed.stat.exists
+
+- name: Clone Antidote repository via SSH
+  git:
+    repo: "git@github.com:mattmc3/antidote.git"
+    dest: "{{ lookup('env', 'ZDOTDIR') | default(ansible_env.HOME, true) }}/.antidote"
+    depth: 1
