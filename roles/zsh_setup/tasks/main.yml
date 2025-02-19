@@ -1,9 +1,10 @@
 ---
 - name: Install ZSH on Linux
-  package:
+  ansible.builtin.package:
     name: zsh
     state: present
   when: ansible_os_family != "Darwin"
+  become: True
 
 - name: Install ZSH on macOS using Homebrew
   community.general.homebrew:
@@ -12,19 +13,31 @@
   when: ansible_system == "Darwin"
 
 - name: Check if oh-my-zsh is already installed
-  stat:
+  ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.oh-my-zsh"
   register: ohmyzsh_installed
 
 - name: Install oh-my-zsh non-interactively
-  shell: |
+  ansible.builtin.shell: |
     RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   args:
     executable: /bin/bash
   when: not ohmyzsh_installed.stat.exists
 
 - name: Clone Antidote repository via SSH
-  git:
+  ansible.builtin.git:
     repo: "git@github.com:mattmc3/antidote.git"
     dest: "{{ lookup('env', 'ZDOTDIR') | default(ansible_env.HOME, true) }}/.antidote"
     depth: 1
+
+- name: Configure Antidote
+  ansible.builtin.template:
+    src: .zsh_plugins.txt.j2
+    dest: "{{ lookup('env', 'ZDOTDIR') | default(ansible_env.HOME, true) }}/.zsh_plugins.txt"
+    mode: "0644"
+
+- name: Copy .zshrc file
+  ansible.builtin.copy:
+    src: .zshrc
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    mode: "0644"

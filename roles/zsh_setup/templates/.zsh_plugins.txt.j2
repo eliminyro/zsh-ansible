@@ -6,25 +6,25 @@ zsh-users/zsh-completions
 romkatv/zsh-bench kind:path
 olets/zsh-abbr    kind:defer
 
-{{ if omz_enabled }}
+{% if omz_enabled %}
 # frameworks like oh-my-zsh are supported
 ohmyzsh/ohmyzsh path:lib
 
-{{ for plugin in omz_plugins }}
+{% for plugin in omz_plugins %}
 ohmyzsh/ohmyzsh path:plugins/{{ plugin }}
-{{ endfor }}
-{{ endif }}
+{% endfor %}
+{% endif %}
 
 # themes:
-{{ if zsh_theme is defined }}
-{{ for theme in zsh_themes }}
+{% if zsh_theme is defined %}
+{% for theme in zsh_themes %}
 {{ theme }}
-{{ endfor }}
-{{ endif }}
+{% endfor %}
+{% endif %}
 
 # popular fish-like plugins
-{{ if antidote_plugins is defined }}
-{{ for plugin in antidote_plugins }}
+{% if antidote_plugins is defined %}
+{% for plugin in antidote_plugins %}
 {{ plugin }}
-{{ endfor }}
-{{ endif }}
+{% endfor %}
+{% endif %}
