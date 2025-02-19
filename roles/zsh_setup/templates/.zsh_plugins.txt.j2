@@ -16,7 +16,7 @@ ohmyzsh/ohmyzsh path:plugins/{{ plugin }}
 {% endif %}
 
 # themes:
-{% if zsh_theme is defined %}
+{% if zsh_themes is defined %}
 {% for theme in zsh_themes %}
 {{ theme }}
 {% endfor %}
