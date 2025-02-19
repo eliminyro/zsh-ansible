@@ -1,16 +1,18 @@
 ---
 - name: Install ZSH on Linux
   ansible.builtin.package:
-    name: zsh
+    name: "{{ item }}"
     state: present
   when: ansible_os_family != "Darwin"
   become: True
+  loop: "{{ zsh_packages }}"
 
 - name: Install ZSH on macOS using Homebrew
   community.general.homebrew:
-    name: zsh
+    name: "{{ item }}"
     state: present
   when: ansible_system == "Darwin"
+  loop: "{{ zsh_packages_darwin }}"
 
 - name: Check if oh-my-zsh is already installed
   ansible.builtin.stat:
@@ -41,3 +43,4 @@
     src: .zshrc
     dest: "{{ ansible_env.HOME }}/.zshrc"
     mode: "0644"
+    backup: True

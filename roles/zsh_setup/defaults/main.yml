@@ -20,5 +20,13 @@ omz_plugins:
   - kubectl
   - pip
 
+zsh_packages:
+  - zsh
+  - fzf
+
+zsh_packages_darwin:
+  - zsh
+  - fzf
+
 zsh_themes:
   - romkatv/powerlevel10k
