@@ -2,4 +2,3 @@
 all:
   hosts:
     localhost:
-    mac-home:
